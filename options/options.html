@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reynard settings</title>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <img src="../icons/icon.svg" width="32" height="32" alt="">
+      <h1>Reynard settings</h1>
+    </header>
+
+    <section id="card-locked" class="card" hidden>
+      <h2>Locked</h2>
+      <form id="unlock-form" class="stack narrow">
+        <label>Password <input type="password" id="unlock-password" autocomplete="current-password" required></label>
+        <p class="error" id="unlock-error" hidden></p>
+        <div><button type="submit" class="primary" id="unlock-submit">Unlock</button></div>
+      </form>
+    </section>
+
+    <div id="unlocked" hidden>
+      <section class="card">
+        <h2>Password</h2>
+        <p class="muted" id="password-status"></p>
+        <form id="password-form" class="stack narrow">
+          <label>New password
+            <input type="password" id="pw-new" autocomplete="new-password" minlength="8" required>
+          </label>
+          <label>Confirm new password
+            <input type="password" id="pw-confirm" autocomplete="new-password" required>
+          </label>
+          <p class="error" id="password-error" hidden></p>
+          <p class="success" id="password-success" hidden></p>
+          <div class="row">
+            <button type="submit" class="primary" id="pw-submit">Set password</button>
+            <button type="button" class="danger" id="pw-remove" hidden>Remove password</button>
+          </div>
+        </form>
+        <form id="remove-form" class="stack narrow" hidden>
+          <p class="muted">Without a password your secrets are stored unencrypted. Enter your current password to remove it.</p>
+          <label>Current password
+            <input type="password" id="pw-current" autocomplete="current-password" required>
+          </label>
+          <p class="error" id="remove-error" hidden></p>
+          <div class="row">
+            <button type="submit" class="danger" id="pw-remove-submit">Remove password</button>
+            <button type="button" id="pw-remove-cancel">Cancel</button>
+          </div>
+        </form>
+        <div id="auto-lock-field" class="stack narrow auto-lock">
+          <label>Lock again after this long unused
+            <select id="auto-lock">
+              <option value="1">1 minute</option>
+              <option value="5">5 minutes</option>
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="0">Only when the browser quits</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Backup</h2>
+        <p class="muted"><span id="account-count"></span> <span id="export-note"></span></p>
+        <div class="row">
+          <button type="button" id="export-json">Download backup (.json)</button>
+          <button type="button" id="export-uris">Download otpauth:// list (unencrypted)</button>
+        </div>
+
+        <h3>Import</h3>
+        <p class="muted">Accepts a Reynard backup, or a text file with one otpauth:// link per line.
+          Accounts you already have are skipped.</p>
+        <form id="import-form" class="stack narrow">
+          <input type="file" id="import-file" accept=".json,.txt,application/json,text/plain">
+          <label id="import-password-field" hidden>Password the backup was made with
+            <input type="password" id="import-password" autocomplete="off">
+          </label>
+          <p class="error" id="import-error" hidden></p>
+          <p class="success" id="import-result" hidden></p>
+          <div><button type="submit" class="primary" id="import-submit" disabled>Import</button></div>
+        </form>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Privacy</h2>
+      <ul class="muted">
+        <li>The only permission is <strong>storage</strong>: a private storage area for this add-on's own data.
+          It cannot read your tabs, the pages you visit, your history, or any other site data, and the browser
+          shows no permission warning for it.</li>
+        <li>The add-on's pages run under a security policy that forbids every network connection, so your
+          secrets cannot be sent anywhere.</li>
+        <li>Nothing leaves your computer unless you download a backup.</li>
+        <li>Without a password, secrets are stored unencrypted in your browser profile. Set a password to
+          encrypt them (AES-256-GCM with a PBKDF2-SHA256 key). Once unlocked, the vault stays unlocked until
+          you lock it, quit the browser, or leave it unused longer than the auto-lock time.</li>
+      </ul>
+    </section>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

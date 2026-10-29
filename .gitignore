@@ -1,0 +1,4 @@
+# web-ext build and sign output
+web-ext-artifacts/
+*.zip
+*.xpi

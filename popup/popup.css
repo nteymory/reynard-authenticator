@@ -1,0 +1,91 @@
+body { width: 372px; }
+
+.view { padding: 12px; }
+/* The last account row adds its own 8px of padding below, so trim the view's to match the top. */
+#view-list { padding-bottom: 6px; }
+
+.warning {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--warn);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.warning a { color: var(--warn); font-weight: 600; }
+
+/* No right padding: that centres the 32px settings button over the timer rings
+   (row padding 6px + half of the 20px ring = 16px in from the edge). */
+.toolbar { display: flex; gap: 6px; margin-bottom: 8px; }
+
+#accounts {
+  max-height: 420px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.account {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px 8px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.account:hover, .account:focus { background: var(--surface); outline: none; }
+.account:focus-visible { outline: 2px solid var(--focus); }
+
+.account .issuer,
+.account .label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account .issuer { font-weight: 600; }
+.account .label { font-size: 12px; color: var(--muted); }
+
+.account .code {
+  color: var(--code);
+  font: 600 20px/1 ui-monospace, Consolas, "Cascadia Mono", monospace;
+  letter-spacing: 1px;
+}
+
+/* The edit button takes the timer ring's place while the row is hovered or focused.
+   The negative margin centres the 26px button on the 20px ring. */
+.account .ring, .account .edit { grid-area: 1 / 3; justify-self: end; }
+.account .edit { margin-right: -3px; }
+.account .edit { width: 26px; height: 26px; border-color: transparent; background: transparent; visibility: hidden; }
+.account:hover .edit, .account:focus-within .edit { visibility: visible; }
+.account:hover .ring, .account:focus-within .ring { visibility: hidden; }
+
+.ring { width: 20px; height: 20px; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 4; }
+.ring .track { stroke: var(--border); }
+.ring .progress { stroke: var(--accent); }
+
+.account.expiring .code { color: var(--warn); }
+.account.expiring .ring .progress { stroke: var(--warn); }
+
+.center { text-align: center; padding: 24px 0; margin: 0; }
+
+details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+details .row { margin-top: 8px; flex-wrap: nowrap; }
+details .row label { flex: 1; min-width: 0; }
+
+#toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+}

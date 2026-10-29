@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Reynard</title>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <section id="view-locked" class="view" hidden>
+    <form id="unlock-form" class="stack">
+      <h1>Reynard is locked</h1>
+      <input type="password" id="unlock-password" placeholder="Password" aria-label="Password"
+             autocomplete="current-password" required>
+      <p class="error" id="unlock-error" hidden></p>
+      <button type="submit" class="primary" id="unlock-submit">Unlock</button>
+    </form>
+  </section>
+
+  <section id="view-list" class="view" hidden>
+    <p id="unencrypted-warning" class="warning" hidden>
+      Your keys are not encrypted. <a href="../options/options.html" id="set-password">Set a password</a>
+    </p>
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="Search" aria-label="Search accounts">
+      <button type="button" id="btn-add" class="icon" title="Add account">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <button type="button" id="btn-lock" class="icon" title="Lock" hidden>
+        <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+      <button type="button" id="btn-settings" class="icon" title="Settings, password and backups">
+        <svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+      </button>
+    </div>
+    <ul id="accounts"></ul>
+    <p id="empty" class="muted center" hidden>No accounts yet.<br>Click + to add one.</p>
+    <p id="no-match" class="muted center" hidden>No accounts match.</p>
+  </section>
+
+  <section id="view-edit" class="view" hidden>
+    <form id="edit-form" class="stack" autocomplete="off">
+      <h1 id="edit-title">Add account</h1>
+      <label id="uri-field">Paste an otpauth:// link (optional)
+        <input id="f-uri" placeholder="otpauth://totp/…" spellcheck="false">
+      </label>
+      <label>Issuer <input id="f-issuer" placeholder="e.g. GitHub"></label>
+      <label>Account <input id="f-label" placeholder="e.g. you@example.com"></label>
+      <label>Secret key <input id="f-secret" required spellcheck="false" placeholder="e.g. JBSWY3DPEHPK3PXP"></label>
+      <details id="advanced">
+        <summary>Advanced</summary>
+        <div class="row">
+          <label>Algorithm
+            <select id="f-algorithm"><option>SHA1</option><option>SHA256</option><option>SHA512</option></select>
+          </label>
+          <label>Digits
+            <select id="f-digits"><option>6</option><option>7</option><option>8</option></select>
+          </label>
+          <label>Period (s) <input id="f-period" type="number" min="1" max="300" value="30"></label>
+        </div>
+      </details>
+      <p class="error" id="edit-error" hidden></p>
+      <div class="row">
+        <button type="button" id="btn-delete" class="danger" hidden>Delete</button>
+        <span class="spacer"></span>
+        <button type="button" id="btn-cancel">Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </section>
+
+  <div id="toast" role="status" hidden></div>
+
+  <template id="tpl-account">
+    <li class="account" tabindex="0" title="Click to copy">
+      <div class="meta"><div class="issuer"></div><div class="label"></div></div>
+      <div class="code">––– –––</div>
+      <svg class="ring" viewBox="0 0 36 36" aria-hidden="true">
+        <circle class="track" cx="18" cy="18" r="15.9155"/>
+        <circle class="progress" cx="18" cy="18" r="15.9155" stroke-dasharray="100"/>
+      </svg>
+      <button type="button" class="icon edit" title="Edit">
+        <svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>
+      </button>
+    </li>
+  </template>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
